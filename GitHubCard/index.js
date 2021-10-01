@@ -28,7 +28,6 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -48,6 +47,7 @@ const followersArray = [];
         <p>Bio: {users bio}</p>
       </div>
     </div>
+    
 */
 
 /*
@@ -58,3 +58,102 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
+
+// STEP 3: 
+function cardMaker(userData) {
+  // Create Element
+  const card = document.createElement('div');
+  const cardImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const cardName = document.createElement('h3');
+  const username = document.createElement('p');
+  const usersLocation = document.createElement('p');
+  const profile = document.createElement('p');
+  const address = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  // Append Element
+  card.appendChild(cardImg);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(cardName);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(usersLocation);
+  cardInfo.appendChild(profile);
+  profile.appendChild(address);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  // Add Class
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  cardName.classList.add('name');
+  username.classList.add('username');
+  
+  // Text Content
+  cardImg.src = userData.avatar_url
+  cardName.textContent = userData.name
+  username.textContent = userData.login
+  usersLocation.textContent = userData.location
+  address.href = userData.html_url
+  address.textContent = userData.html_url
+  bio.textContent = userData.bio
+  followers.textContent = userData.followers
+  following.textContent = `${userData.following} `
+
+
+  
+  return card;
+}
+//console.log(cardMaker());
+
+// STEP 1: 
+import axios from "axios";
+function showUserCard(URL){
+  axios.get(URL)
+  .then(resp => {
+
+    console.log(resp.data);
+    const card = cardMaker(resp.data)
+// STEP 4:     
+    document.querySelector('.cards').appendChild(card);
+    console.log(card);
+  }).catch( err => {
+
+  }).finally( () => {
+    console.log("");
+  });
+}
+const myURL = 'https://api.github.com/users/sooof';
+showUserCard(myURL);
+
+
+// STEP 5: 
+const friendsArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+friendsArray.forEach((element) => {
+  let url = `https://api.github.com/users/${element}`
+  showUserCard(url);
+})
+
+
+
+// friendsArray.forEach(function(element){
+//   let url = `https://api.github.com/users/${element}`
+//   showUserCard(url);
+// })
+// for(let i=0; i<friendsArray.length; i++){
+//   let url =`https://api.github.com/users/${friendsArray[i]}`
+//  console.log(url);
+//  showUserCard(url);
+// }
+
+
